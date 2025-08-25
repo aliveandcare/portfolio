@@ -8,7 +8,7 @@ const portfolioData = {
   title: "Full-Stack Developer & UI/UX Enthusiast",
   bio: "Hello! I'm Andrew, a passionate full-stack developer with a love for creating intuitive, dynamic, and beautiful user experiences. I enjoy tackling complex problems and turning ideas into reality. When I'm not coding, you can find me exploring new hiking trails or contributing to open-source projects.",
   contact: {
-    email: "athomas@banyanlabs.io",
+    email: "aliveandcare6@gmail.com",
     socials: {
       github: "https://github.com/aliveandcare",
       linkedin: "https://www.linkedin.com/in/andrew-thomas-596947370/",
@@ -132,6 +132,15 @@ export default function App() {
     ? <VisualPortfolio onToggleMode={toggleMode} />
     : <IdePortfolio onToggleMode={toggleMode} />;
 }
+const PrimaryButton = ({ onClick, children, className = '', href, as: Component = 'button' }) => (
+  <Component
+    onClick={onClick}
+    href={href}
+    className={`font-mono bg-cyan-500 text-white py-3 px-8 rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300 transform hover:scale-105 animate-pulse focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75 ${className}`}
+  >
+    {children}
+  </Component>
+);
 const VisualPortfolio = ({ onToggleMode }) => (
   <div className="bg-gray-900 text-gray-200 font-sans antialiased min-h-screen">
     <Header />
@@ -206,7 +215,7 @@ const HeroSection = () => (
       <img
         src="/creator.png"
         alt="Digital Creator Logo"
-        className="mx-auto mb-8 w-175 h-auto rounded-lg shadow-lg animate-fade-in-up"
+        className="mx-auto mb-8 w-200 h-auto rounded-lg shadow-lg animate-fade-in-up"
       />
     </div>
   </section>
@@ -215,12 +224,9 @@ const IdeToggleButton = ({ onToggleMode }) => (
   <section className="py-10 bg-gray-900 text-center rounded-lg my-8">
     <div className="container mx-auto px-6 border-2 border-dashed border-gray-700 rounded-lg p-8 transform hover:scale-100 transition-transform duration-300">
       <p className="font-mono text-gray-400 mb-4 text-lg">Curiosity is a feature, not a bug.</p>
-      <button
-        onClick={onToggleMode}
-        className="font-mono bg-cyan-500 text-white py-3 px-8 rounded-lg shadow-lg hover:bg-cyan-600 transition-all duration-300 transform hover:scale-105 animate-pulse focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75"
-      >
+      <PrimaryButton onClick={onToggleMode}>
         [ Initiate IDE Mode ]
-      </button>
+      </PrimaryButton>
     </div>
   </section>
 );
@@ -236,7 +242,7 @@ const AboutSection = () => (
             src="/me.jpg"
             alt={portfolioData.name}
             className="rounded-full shadow-2xl mx-auto border-4 border-cyan-400 object-cover w-64 h-64"
-            onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/300x300/1e1e1e/cyan?text=Avatar"; }}
+            onError={(e) => { e.target.onerror = null;}}
           />
         </div>
         <div className="md:w-2/3 text-lg text-gray-300 leading-relaxed bg-gray-700 p-6 rounded-lg shadow-md">
@@ -310,12 +316,9 @@ const ContactSection = () => (
       <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
         I'm currently open to new opportunities. Feel free to reach out!
       </p>
-      <a
-        href={`mailto:${portfolioData.contact.email}`}
-        className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-4 px-8 rounded-full transition-transform duration-300 transform hover:scale-105 inline-block text-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75"
-      >
+      <PrimaryButton href={`mailto:${portfolioData.contact.email}`} as="a">
         Say Hello
-      </a>
+      </PrimaryButton>
     </div>
   </section>
 );
