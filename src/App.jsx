@@ -8,7 +8,7 @@ const portfolioData = {
   title: "Full-Stack Developer & UI/UX Enthusiast",
   bio: "Hello! I'm Andrew, a passionate full-stack developer with a love for creating intuitive, dynamic, and beautiful user experiences. I enjoy tackling complex problems and turning ideas into reality. When I'm not coding, you can find me exploring new hiking trails or contributing to open-source projects.",
   contact: {
-    email: "aliveandcare6@gmail.com",
+    email: "athomas@banyanlabs.io",
     socials: {
       github: "https://github.com/aliveandcare",
       linkedin: "https://www.linkedin.com/in/andrew-thomas-596947370/",
