@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Menu, X, FileCode, FileJson, FileText, Mailbox, Folder, ChevronRight, XCircle, Code, Globe,
-  Github, Linkedin
+  Menu, X, FileCode, FileJson, FileText, Mailbox, Folder, ChevronRight, XCircle, Code, Globe
 } from 'lucide-react';
 const portfolioData = {
   name: "Andrew Thomas",
@@ -252,6 +251,32 @@ const AboutSection = () => (
     </div>
   </section>
 );
+const ProjectCard = ({ project, onOpenTab }) => (
+  <a
+    href={project.url !== '#' ? project.url : undefined}
+    target={project.url !== '#' ? "_blank" : undefined}
+    rel={project.url !== '#' ? "noopener noreferrer" : undefined}
+    className={`block group ${project.url === '#' ? 'cursor-default' : 'hover:scale-105'} transition-transform duration-300`}
+  >
+    <div className="bg-gray-800 rounded-lg shadow-xl overflow-hidden flex flex-col h-full border border-gray-700 group-hover:border-cyan-500 transition-colors duration-300">
+      <div className="p-6 flex-grow">
+        <h3 className="text-2xl font-bold mb-2 text-cyan-400 group-hover:text-cyan-300">
+          {project.title}
+        </h3>
+        <p className="text-gray-400 mb-4">{project.description}</p>
+      </div>
+      <div className="p-6 bg-gray-800 mt-auto border-t border-gray-700">
+        <div className="flex flex-wrap gap-2">
+          {project.tags.map((tag, i) => (
+            <span key={i} className="bg-gray-700 text-cyan-300 text-sm font-semibold px-3 py-1 rounded-full group-hover:bg-cyan-600 group-hover:text-white transition-all">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </a>
+);
 const ProjectsSection = () => (
   <section id="projects" className="py-20 bg-gray-900 rounded-lg my-8 shadow-lg">
     <div className="container mx-auto px-6">
@@ -260,31 +285,7 @@ const ProjectsSection = () => (
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {portfolioData.projects.map((project, index) => (
-          <a
-            key={index}
-            href={project.url !== '#' ? project.url : undefined}
-            target={project.url !== '#' ? "_blank" : undefined}
-            rel={project.url !== '#' ? "noopener noreferrer" : undefined}
-            className={`block group ${project.url === '#' ? 'cursor-default' : 'hover:scale-105'} transition-transform duration-300`}
-          >
-            <div className="bg-gray-800 rounded-lg shadow-xl overflow-hidden flex flex-col h-full border border-gray-700 group-hover:border-cyan-500 transition-colors duration-300">
-              <div className="p-6 flex-grow">
-                <h3 className="text-2xl font-bold mb-2 text-cyan-400 group-hover:text-cyan-300">
-                  {project.title}
-                </h3>
-                <p className="text-gray-400 mb-4">{project.description}</p>
-              </div>
-              <div className="p-6 bg-gray-800 mt-auto border-t border-gray-700">
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag, i) => (
-                    <span key={i} className="bg-gray-700 text-cyan-300 text-sm font-semibold px-3 py-1 rounded-full group-hover:bg-cyan-600 group-hover:text-white transition-all">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </a>
+          <ProjectCard key={index} project={project} />
         ))}
       </div>
     </div>
@@ -332,7 +333,7 @@ const Footer = () => (
           target="_blank" rel="noopener noreferrer"
           aria-label="GitHub Profile"
         >
-          <Github className="w-7 h-7" />
+          <svg role="img" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.08-.738.08-.724.08-.724 1.2.084 1.834 1.237 1.834 1.237 1.07 1.833 2.807 1.304 3.492.997.108-.775.42-1.304.762-1.604-2.665-.305-5.467-1.334-5.467-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3-.997.955-.262 1.98-.392 3-.398 1.02.006 2.045.136 3 .398 2.285.675 3.295.997 3.295.997.645 1.653.24 2.873.12 3.176.77.84 1.235 1.91 1.235 3.22 0 4.604-2.802 5.624-5.475 5.92.43.37.81 1.028.81 2.078 0 1.5-.015 2.71-.015 3.075 0 .318.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12z"/></svg>
         </a>
         <a
           href={portfolioData.contact.socials.linkedin}
@@ -340,7 +341,7 @@ const Footer = () => (
           target="_blank" rel="noopener noreferrer"
           aria-label="LinkedIn Profile"
         >
-          <Linkedin className="w-7 h-7" />
+          <svg role="img" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7"><path d="M20.447 20.452h-3.554v-5.569c0-1.325-.028-3.044-1.852-3.044-1.853 0-2.136 1.445-2.136 2.951v5.662H9.559V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.923-2.063-2.065 0-1.145.92-2.066 2.063-2.066 1.145 0 2.064.922 2.064 2.066 0 1.141-.92 2.065-2.064 2.065zm-.106 13.015H8.89V9H5.231v11.448zM22.227 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.456C23.208 24 24 23.227 24 22.271V1.729C24 .774 23.208 0 22.227 0z"/></svg>
         </a>
       </div>
       <p>&copy; {new Date().getFullYear()} {portfolioData.name}. All Rights Reserved.</p>
@@ -389,7 +390,7 @@ const IdePortfolio = ({ onToggleMode }) => {
       <div className="flex flex-grow overflow-hidden">
         <div className="bg-[#333333] p-2 flex flex-col items-center space-y-4 shadow-inner">
           <FileCode className="w-7 h-7 text-white cursor-pointer hover:text-cyan-400 transition-colors duration-200" title="Explorer" />
-          <Github className="w-7 h-7 text-gray-500 cursor-pointer hover:text-cyan-400 transition-colors duration-200" title="Source Control" />
+          <svg role="img" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7 text-gray-500 cursor-pointer hover:text-cyan-400 transition-colors duration-200" title="Source Control"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.08-.738.08-.724.08-.724 1.2.084 1.834 1.237 1.834 1.237 1.07 1.833 2.807 1.304 3.492.997.108-.775.42-1.304.762-1.604-2.665-.305-5.467-1.334-5.467-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3-.997.955-.262 1.98-.392 3-.398 1.02.006 2.045.136 3 .398 2.285.675 3.295.997 3.295.997.645 1.653.24 2.873.12 3.176.77.84 1.235 1.91 1.235 3.22 0 4.604-2.802 5.624-5.475 5.92.43.37.81 1.028.81 2.078 0 1.5-.015 2.71-.015 3.075 0 .318.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12z"/></svg>
           <Code className="w-7 h-7 text-gray-500 cursor-pointer hover:text-cyan-400 transition-colors duration-200" title="Extensions" />
         </div>
         <div className="bg-[#252526] w-64 p-2 shadow-md flex-shrink-0">
