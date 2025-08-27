@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Menu, X, FileCode, FileJson, FileText, Mailbox, Folder, ChevronRight, XCircle, Code, Globe
 } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 const portfolioData = {
   name: "Andrew Thomas",
   title: "Full-Stack Developer & UI/UX Enthusiast",
@@ -12,7 +13,7 @@ const portfolioData = {
       github: "https://github.com/aliveandcare",
       linkedin: "https://www.linkedin.com/in/andrew-thomas-596947370/",
     },
-    resumeUrl: 'https://docs.google.com/document/d/e/2PACX-1vT_tq_Sc1gCzmkSHf_ec78U7_rDU5pcdahm8i5gVMNwViO1Qfw_ZdamXDwVB4Nvtw/pub'
+    resumeUrl: 'https://docs.google.com/document/d/1BfO7g6Jg6E2XkR3V5U8A_4C_5l0f4P9b_3v2f_1N4L8/edit?usp=sharing'
   },
   skills: [
     'JavaScript (ES6+)', 'TypeScript', 'React', 'Next.js', 'Node.js', 'Express.js',
@@ -373,8 +374,11 @@ const SkillsSection = () => (
   </section>
 );
 const ContactSection = ({ setIsResumeModalOpen }) => {
+  const form = useRef();
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState('');
   const validate = () => {
     const newErrors = {};
     if (!formState.name) newErrors.name = 'Name is required.';
@@ -384,17 +388,29 @@ const ContactSection = ({ setIsResumeModalOpen }) => {
     return newErrors;
   };
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const newErrors = validate();
-    if (Object.keys(newErrors).length === 0) {
-      console.log('Form submitted:', formState);
-      alert('Form submitted successfully!');
-      setFormState({ name: '', email: '', message: '' });
-      setErrors({});
-    } else {
-      setErrors(newErrors);
-    }
-  };
+  e.preventDefault();
+  const newErrors = validate();
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    return;
+  }
+  setIsSubmitting(true);
+  setMessage('');
+  
+  emailjs.sendForm('service_096t1rn', 'template_iyxsan8', form.current, {
+    publicKey: 'uEJ-wekYQCdUWPW4d',
+  })
+  .then((result) => {
+    setMessage('Your message has been sent successfully!');
+    setFormState({ name: '', email: '', message: '' });
+    setErrors({});
+  }, (error) => {
+    setMessage('Failed to send the message. Please try again later.');
+  })
+  .finally(() => {
+    setIsSubmitting(false);
+  });
+};
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormState(prev => ({ ...prev, [name]: value }));
@@ -414,7 +430,7 @@ const ContactSection = ({ setIsResumeModalOpen }) => {
             View Resume
           </Button>
         </div>
-        <form onSubmit={handleSubmit} className="mt-12 max-w-xl mx-auto p-6 bg-gray-800 rounded-lg shadow-lg">
+        <form ref={form} onSubmit={handleSubmit} className="mt-12 max-w-xl mx-auto p-6 bg-gray-800 rounded-lg shadow-lg">
           <h3 className="text-2xl font-bold text-white mb-6">Contact Form</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Input
@@ -447,9 +463,14 @@ const ContactSection = ({ setIsResumeModalOpen }) => {
               rows="4"
             />
           </div>
-          <Button type="submit" className="mt-8 w-full">
-            Send Message
+          <Button type="submit" className="mt-8 w-full" disabled={isSubmitting}>
+            {isSubmitting ? 'Sending...' : 'Send Message'}
           </Button>
+          {message && (
+            <p className={`mt-4 text-center ${message.includes('successfully') ? 'text-green-400' : 'text-red-400'}`}>
+              {message}
+            </p>
+          )}
         </form>
       </div>
     </section>
@@ -597,7 +618,9 @@ const EditorContent = ({ activeTab, onOpenTab }) => {
     default: return null;
   }
 };
-const Syntax = ({ children, lang }) => <span className={lang}>{children}</span>;
+const Syntax = ({ children, lang }) => (
+  <span className={lang}>{children}</span>
+);
 const AboutContent = () => (
   <div>
     <p><Syntax lang="text-purple-400 font-bold"># About Me</Syntax></p>
