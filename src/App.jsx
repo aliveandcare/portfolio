@@ -7,11 +7,12 @@ const portfolioData = {
   title: "Full-Stack Developer & UI/UX Enthusiast",
   bio: "Hello! I'm Andrew, a passionate full-stack developer with a love for creating intuitive, dynamic, and beautiful user experiences. I enjoy tackling complex problems and turning ideas into reality. When I'm not coding, you can find me exploring new hiking trails or contributing to open-source projects.",
   contact: {
-    email: "aliveandcare6@gmail.com",
+    email: "athomas@banyanlabs.io",
     socials: {
       github: "https://github.com/aliveandcare",
       linkedin: "https://www.linkedin.com/in/andrew-thomas-596947370/",
-    }
+    },
+    resumeUrl: 'https://docs.google.com/document/d/e/2PACX-1vT_tq_Sc1gCzmkSHf_ec78U7_rDU5pcdahm8i5gVMNwViO1Qfw_ZdamXDwVB4Nvtw/pub'
   },
   skills: [
     'JavaScript (ES6+)', 'TypeScript', 'React', 'Next.js', 'Node.js', 'Express.js',
@@ -210,6 +211,7 @@ const Footer = ({ socialLinks }) => (
   </footer>
 );
 const VisualPortfolio = ({ onToggleMode }) => {
+  const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
   const navLinks = [
     { href: '#about', label: 'About' },
     { href: '#projects', label: 'Projects' },
@@ -237,12 +239,31 @@ const VisualPortfolio = ({ onToggleMode }) => {
         <AboutSection />
         <ProjectsSection />
         <SkillsSection />
-        <ContactSection />
+        <ContactSection setIsResumeModalOpen={setIsResumeModalOpen} />
       </main>
       <Footer socialLinks={socialLinks} />
+      {isResumeModalOpen && <ResumeModal onClose={() => setIsResumeModalOpen(false)} />}
     </div>
   );
 };
+const ResumeModal = ({ onClose }) => (
+  <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-75 p-4 md:p-8">
+    <div className="relative w-full h-full max-w-5xl max-h-screen-md bg-gray-900 rounded-lg shadow-xl overflow-hidden flex flex-col">
+      <div className="flex justify-between items-center bg-gray-800 text-white p-4">
+        <h3 className="text-xl font-bold">Resume</h3>
+        <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors">
+          <X className="w-6 h-6" />
+        </button>
+      </div>
+      <iframe
+        src={portfolioData.contact.resumeUrl}
+        className="w-full h-full"
+        title="Resume"
+        frameBorder="0"
+      ></iframe>
+    </div>
+  </div>
+);
 const HeroSection = () => (
   <section id="home" className="min-h-screen flex items-center justify-center bg-gray-900 text-center py-20 rounded-b-xl shadow-inner">
     <div className="container mx-auto px-6">
@@ -351,18 +372,104 @@ const SkillsSection = () => (
     </div>
   </section>
 );
-const ContactSection = () => (
-  <section id="contact" className="py-20 bg-gray-900 rounded-lg my-8 shadow-lg">
-    <div className="container mx-auto px-6 text-center">
-      <h2 className="text-4xl font-bold mb-4 text-white">Get In Touch</h2>
-      <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
-        I'm currently open to new opportunities. Feel free to reach out!
-      </p>
-      <Button href={`mailto:${portfolioData.contact.email}`} as="a">
-        Say Hello
-      </Button>
-    </div>
-  </section>
+const ContactSection = ({ setIsResumeModalOpen }) => {
+  const [formState, setFormState] = useState({ name: '', email: '', message: '' });
+  const [errors, setErrors] = useState({});
+  const validate = () => {
+    const newErrors = {};
+    if (!formState.name) newErrors.name = 'Name is required.';
+    if (!formState.email) newErrors.email = 'Email is required.';
+    if (formState.email && !/\S+@\S+\.\S+/.test(formState.email)) newErrors.email = 'Email address is invalid.';
+    if (!formState.message) newErrors.message = 'Message is required.';
+    return newErrors;
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newErrors = validate();
+    if (Object.keys(newErrors).length === 0) {
+      console.log('Form submitted:', formState);
+      alert('Form submitted successfully!');
+      setFormState({ name: '', email: '', message: '' });
+      setErrors({});
+    } else {
+      setErrors(newErrors);
+    }
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormState(prev => ({ ...prev, [name]: value }));
+  };
+  return (
+    <section id="contact" className="py-20 bg-gray-900 rounded-lg my-8 shadow-lg">
+      <div className="container mx-auto px-6 text-center">
+        <h2 className="text-4xl font-bold mb-4 text-white">Get In Touch</h2>
+        <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
+          I'm currently open to new opportunities. Feel free to reach out!
+        </p>
+        <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
+          <Button href={`mailto:${portfolioData.contact.email}`} as="a">
+            Say Hello
+          </Button>
+          <Button onClick={() => setIsResumeModalOpen(true)}>
+            View Resume
+          </Button>
+        </div>
+        <form onSubmit={handleSubmit} className="mt-12 max-w-xl mx-auto p-6 bg-gray-800 rounded-lg shadow-lg">
+          <h3 className="text-2xl font-bold text-white mb-6">Contact Form</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Input
+              label="Name"
+              name="name"
+              value={formState.name}
+              onChange={handleChange}
+              error={errors.name}
+              placeholder="Your Name"
+            />
+            <Input
+              label="Email"
+              name="email"
+              type="email"
+              value={formState.email}
+              onChange={handleChange}
+              error={errors.email}
+              placeholder="you@example.com"
+            />
+          </div>
+          <div className="mt-6">
+            <Input
+              label="Message"
+              name="message"
+              value={formState.message}
+              onChange={handleChange}
+              error={errors.message}
+              placeholder="Your message"
+              as="textarea"
+              rows="4"
+            />
+          </div>
+          <Button type="submit" className="mt-8 w-full">
+            Send Message
+          </Button>
+        </form>
+      </div>
+    </section>
+  );
+};
+const Input = ({ label, name, type = 'text', value, onChange, error, placeholder, as: Component = 'input', rows }) => (
+  <div className="text-left">
+    <label htmlFor={name} className="block text-gray-300 font-semibold mb-2">{label}</label>
+    <Component
+      id={name}
+      name={name}
+      type={type}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      rows={rows}
+      className={`w-full p-3 bg-gray-700 text-white rounded-lg border-2 ${error ? 'border-red-500' : 'border-gray-600'} focus:outline-none focus:border-cyan-400 transition-colors`}
+    />
+    {error && <p className="mt-2 text-red-500 text-sm">{error}</p>}
+  </div>
 );
 const IdePortfolio = ({ onToggleMode }) => {
   const [openTabs, setOpenTabs] = useState([{ id: 'about.md', name: 'about.md', type: 'file' }]);
