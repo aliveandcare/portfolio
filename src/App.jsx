@@ -13,7 +13,7 @@ const portfolioData = {
       github: "https://github.com/aliveandcare",
       linkedin: "https://www.linkedin.com/in/andrew-thomas-596947370/",
     },
-    resumeUrl: 'https://docs.google.com/document/d/1BfO7g6Jg6E2XkR3V5U8A_4C_5l0f4P9b_3v2f_1N4L8/edit?usp=sharing'
+    resumeUrl: 'https://docs.google.com/document/d/e/2PACX-1vT_tq_Sc1gCzmkSHf_ec78U7_rDU5pcdahm8i5gVMNwViO1Qfw_ZdamXDwVB4Nvtw/pub'
   },
   skills: [
     'JavaScript (ES6+)', 'TypeScript', 'React', 'Next.js', 'Node.js', 'Express.js',
