@@ -304,7 +304,7 @@ const AboutSection = () => (
             src="/me.jpg"
             alt={portfolioData.name}
             className="rounded-full shadow-2xl mx-auto border-4 border-cyan-400 object-cover w-64 h-64"
-            onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/300x300/1e1e1e/cyan?text=Avatar"; }}
+            onError={(e) => { e.target.onerror = null;}}
           />
         </div>
         <div className="md:w-2/3 text-lg text-gray-300 leading-relaxed bg-gray-700 p-6 rounded-lg shadow-md">
