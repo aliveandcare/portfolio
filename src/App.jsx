@@ -4,7 +4,7 @@ import {
 } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 const portfolioData = {
-  name: "Andrew Thomas",
+  name: "Andrew's Portfolio",
   title: "Full-Stack Developer & UI/UX Enthusiast",
   bio: "Hello! I'm Andrew, a passionate full-stack developer with a love for creating intuitive, dynamic, and beautiful user experiences. I enjoy tackling complex problems and turning ideas into reality. When I'm not coding, you can find me exploring new hiking trails or contributing to open-source projects.",
   contact: {
@@ -38,6 +38,12 @@ const portfolioData = {
       description: 'A dual-mode portfolio featuring a visual UI and an interactive IDE, built with React and Tailwind CSS.',
       tags: ['React', 'Tailwind CSS'],
       url: '#'
+    },
+    {
+      title: 'UpCurve',
+      description: 'A platform for growth and development.',
+      tags: ['React', 'Next.js'],
+      url: 'https://www.upcurve.life'
     },
   ]
 };
@@ -216,6 +222,7 @@ const VisualPortfolio = ({ onToggleMode }) => {
   const navLinks = [
     { href: '#about', label: 'About' },
     { href: '#projects', label: 'Projects' },
+    { href: '#hobbies', label: 'Hobbies' },
     { href: '#skills', label: 'Skills' },
     { href: '#contact', label: 'Contact' },
   ];
@@ -239,6 +246,7 @@ const VisualPortfolio = ({ onToggleMode }) => {
         <IdeToggleButton onToggleMode={onToggleMode} />
         <AboutSection />
         <ProjectsSection />
+        <HobbiesSection />
         <SkillsSection />
         <ContactSection setIsResumeModalOpen={setIsResumeModalOpen} />
       </main>
@@ -354,6 +362,41 @@ const ProjectsSection = () => (
     </div>
   </section>
 );
+const HobbiesSection = () => {
+  const videos = [
+    { src: '/videos/HereWithoutYou.mp4', title: 'Here Without You' },
+    { src: '/videos/Memories.mp4', title: 'Memories' },
+  ];
+
+  return (
+    <section id="hobbies" className="py-20 bg-gray-800 rounded-lg my-8 shadow-lg">
+      <div className="container mx-auto px-6">
+        <h2 className="text-4xl font-bold text-center mb-12 text-white border-b-2 border-cyan-400 pb-2">
+          Hobbies
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {videos.map((video, index) => (
+            <div key={index} className="bg-gray-900 rounded-lg shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+              <div className="p-6">
+                <h3 className="text-2xl font-bold mb-4 text-cyan-400 text-center">
+                  {video.title}
+                </h3>
+                <video
+                  src={video.src}
+                  controls
+                  className="w-full rounded-lg shadow-md"
+                  preload="metadata"
+                >
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 const SkillsSection = () => (
   <section id="skills" className="py-20 bg-gray-800 rounded-lg my-8 shadow-lg">
     <div className="container mx-auto px-6">
