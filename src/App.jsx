@@ -374,6 +374,18 @@ const HobbiesSection = () => {
         <h2 className="text-4xl font-bold text-center mb-12 text-white border-b-2 border-cyan-400 pb-2">
           Hobbies
         </h2>
+        <div className="max-w-3xl mx-auto mb-12">
+          <p className="text-lg text-gray-300 text-center leading-relaxed mb-8">
+            Beyond code, I'm deeply passionate about music and have been playing guitar for over two decades. 
+            Music serves as my creative sanctuary—a way to unwind, explore new melodies, and find balance after 
+            long days of problem-solving. Whether I'm learning new techniques or composing original pieces, 
+            the guitar has been a constant source of inspiration and mental clarity throughout my career.
+          </p>
+          <p className="text-lg text-gray-300 text-center leading-relaxed italic">
+            Below are a couple of songs I've created that hold special meaning to me, each representing 
+            a unique moment in my musical journey and showcasing the creative expression that complements my technical work.
+          </p>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {videos.map((video, index) => (
             <div key={index} className="bg-gray-900 rounded-lg shadow-xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
