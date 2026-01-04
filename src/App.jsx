@@ -5,7 +5,7 @@ import {
 import emailjs from '@emailjs/browser';
 const portfolioData = {
   name: "Andrew's Portfolio",
-  title: "Full-Stack Developer & UI/UX Enthusiast",
+  title: "Senior Software Developer",
   bio: "Hello! I'm Andrew, a passionate full-stack developer with a love for creating intuitive, dynamic, and beautiful user experiences. I enjoy tackling complex problems and turning ideas into reality. When I'm not coding, you can find me exploring new hiking trails or contributing to open-source projects.",
   contact: {
     email: "athomas@banyanlabs.io",
