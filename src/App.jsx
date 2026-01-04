@@ -367,6 +367,16 @@ const HobbiesSection = () => {
     { src: '/videos/HereWithoutYou.mp4', title: 'Here Without You' },
     { src: '/videos/Memories.mp4', title: 'Memories' },
   ];
+  
+  const videoRefs = useRef([]);
+
+  const handlePlay = (currentIndex) => {
+    videoRefs.current.forEach((videoRef, index) => {
+      if (videoRef && index !== currentIndex && !videoRef.paused) {
+        videoRef.pause();
+      }
+    });
+  };
 
   return (
     <section id="hobbies" className="py-20 bg-gray-800 rounded-lg my-8 shadow-lg">
@@ -382,8 +392,8 @@ const HobbiesSection = () => {
             the guitar has been a constant source of inspiration and mental clarity throughout my career.
           </p>
           <p className="text-lg text-gray-300 text-center leading-relaxed italic">
-            Below are a couple of songs I've created that hold special meaning to me, each representing 
-            a unique moment in my musical journey and showcasing the creative expression that complements my technical work.
+            Below are covers I've performed of two songs I love, each representing a meaningful moment 
+            in my musical journey and showcasing the creative expression that complements my technical work.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -394,10 +404,12 @@ const HobbiesSection = () => {
                   {video.title}
                 </h3>
                 <video
+                  ref={(el) => (videoRefs.current[index] = el)}
                   src={video.src}
                   controls
                   className="w-full rounded-lg shadow-md"
                   preload="metadata"
+                  onPlay={() => handlePlay(index)}
                 >
                   Your browser does not support the video tag.
                 </video>
